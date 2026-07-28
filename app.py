@@ -191,6 +191,11 @@ diagram_url = "data:image/svg+xml;base64," + base64.b64encode(
     diagram_svg.encode("utf-8")
 ).decode("ascii")
 st.image(diagram_url, width="stretch")
+with st.expander("Why these relationship stages?"):
+    for pair, (first, second) in PAIR_DISPLAY.items():
+        reason = phase["relationships"].get(pair, {}).get("reason")
+        if reason and str(reason).strip():
+            st.markdown(f"**{first} and {second}** — {reason}")
 st.markdown(
     '<div class="relationship-key">Line weight and style show broad relationship '
     "stages—not scientific scores.</div>",
