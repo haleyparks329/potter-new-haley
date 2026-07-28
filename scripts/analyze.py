@@ -69,15 +69,15 @@ def main() -> int:
     print(f"Candidate evidence: {candidate_path}")
 
     if args.no_llm:
-        print("Interpretation skipped (--no-llm); analysis.json was not changed.")
+        print("Interpretation skipped (--no-llm); friendship_timeline.json was not changed.")
         return 0
     try:
         analysis = analyze_with_ollama(candidates, model=args.model)
     except (RuntimeError, ValueError) as error:
         print(f"Interpretation incomplete: {error}")
-        print("Existing analysis.json, if any, was preserved.")
+        print("Existing friendship_timeline.json, if any, was preserved.")
         return 3
-    analysis_path = OUTPUT / "analysis.json"
+    analysis_path = OUTPUT / "friendship_timeline.json"
     atomic_json(analysis_path, analysis)
     print(f"Validated analysis: {analysis_path}")
     return 0
@@ -85,4 +85,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

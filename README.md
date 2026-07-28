@@ -51,8 +51,9 @@ another installed model with `--model`.
 The command prints the selected filename, chapter count, total words, and first
 and last detected headings. Deterministic candidates are saved to
 `data/output/candidates.json`. A successful interpretation is validated and
-atomically written to `data/output/analysis.json`; failed regeneration never
-overwrites existing valid output.
+atomically written to `data/output/friendship_timeline.json`; failed
+regeneration never overwrites existing valid output. This file is the stable
+contract between the preprocessing pipeline and the future visualization.
 
 ## How the analysis works
 
@@ -93,4 +94,4 @@ generated outputs are Git-ignored, and evidence excerpts are capped at 70
 words. No book text is included in tests or source control.
 
 The next phase is an interactive friendship timeline that reads the cached
-`analysis.json` without invoking an LLM.
+`friendship_timeline.json` without invoking an LLM.
