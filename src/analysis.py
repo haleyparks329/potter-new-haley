@@ -132,6 +132,65 @@ def build_candidates(chapters: list[Chapter], retriever: Any) -> dict[str, list[
     }
 
 
+def build_deterministic_timeline(
+    candidates: dict[str, list[Evidence]],
+) -> dict[str, Any]:
+    """Build a validated frontend contract without interpretive model output."""
+    pair_characters = {
+        "harry_ron": {"Harry", "Ron"},
+        "harry_hermione": {"Harry", "Hermione"},
+        "ron_hermione": {"Ron", "Hermione"},
+    }
+    phases = []
+    for phase in PHASES:
+        evidence = candidates[phase["id"]]
+        relationships = {}
+        for pair, characters in pair_characters.items():
+            co_mentions = sum(
+                characters.issubset(set(item.characters)) for item in evidence
+            )
+            level = 2 if co_mentions else 0
+            reason = (
+                f"Explicit co-mention appears in {co_mentions} retrieved "
+                f"candidate{'s' if co_mentions != 1 else ''}; trust and friendship "
+                "require optional interpretation."
+                if co_mentions
+                else "No explicit co-mention appears in the retained evidence."
+            )
+            relationships[pair] = {
+                "level": level,
+                "label": RELATIONSHIP_SCALE[level],
+                "reason": reason,
+            }
+        phases.append({
+            "id": phase["id"],
+            "label": phase["label"],
+            "symbol": phase["symbol"],
+            "chapter_numbers": phase["chapters"],
+            "friendship_stage": (
+                "Candidate interactions found" if evidence else "No retained interactions"
+            ),
+            "summary": phase["purpose"],
+            "change_from_previous_phase": "",
+            "character_actions": [],
+            "cooperation": [],
+            "conflict": [],
+            "relationships": relationships,
+            "evidence": [{
+                "chapter": item.chapter,
+                "characters": item.characters,
+                "excerpt": item.excerpt,
+                "relevance": item.relevance,
+            } for item in evidence],
+            "limitations": [
+                "Deterministic retrieval only; interpretive fields are intentionally "
+                "empty until optional LLM enrichment.",
+                "Full pronoun and coreference resolution is outside scope.",
+            ],
+        })
+    return validate_analysis({"project": PROJECT, "phases": phases})
+
+
 def _prompt(candidates: dict[str, list[Evidence]]) -> str:
     payload = []
     for phase in PHASES:

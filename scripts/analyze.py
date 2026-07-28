@@ -9,7 +9,12 @@ import tempfile
 from dataclasses import asdict
 from pathlib import Path
 
-from src.analysis import PHASES, analyze_with_ollama, build_candidates
+from src.analysis import (
+    PHASES,
+    analyze_with_ollama,
+    build_candidates,
+    build_deterministic_timeline,
+)
 from src.corpus import load_book
 from src.evidence import retrieve_evidence
 
@@ -38,7 +43,11 @@ def atomic_json(path: Path, data: object) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--no-llm", action="store_true", help="stop after retrieval")
+    parser.add_argument(
+        "--no-llm",
+        action="store_true",
+        help="write a deterministic timeline without model enrichment",
+    )
     parser.add_argument("--model", default="llama3.1:8b", help="local Ollama model")
     args = parser.parse_args()
 
@@ -68,18 +77,25 @@ def main() -> int:
     print(f"Retrieved candidates: {sum(map(len, candidates.values()))}")
     print(f"Candidate evidence: {candidate_path}")
 
+    analysis_path = OUTPUT / "friendship_timeline.json"
+    deterministic_timeline = build_deterministic_timeline(candidates)
     if args.no_llm:
-        print("Interpretation skipped (--no-llm); friendship_timeline.json was not changed.")
+        atomic_json(analysis_path, deterministic_timeline)
+        print(f"Deterministic timeline: {analysis_path}")
+        print("Optional LLM enrichment skipped (--no-llm).")
         return 0
     try:
         analysis = analyze_with_ollama(candidates, model=args.model)
     except (RuntimeError, ValueError) as error:
-        print(f"Interpretation incomplete: {error}")
-        print("Existing friendship_timeline.json, if any, was preserved.")
-        return 3
-    analysis_path = OUTPUT / "friendship_timeline.json"
+        print(f"Optional LLM enrichment incomplete: {error}")
+        if analysis_path.exists():
+            print("Existing friendship_timeline.json was preserved.")
+        else:
+            atomic_json(analysis_path, deterministic_timeline)
+            print(f"Deterministic timeline: {analysis_path}")
+        return 0
     atomic_json(analysis_path, analysis)
-    print(f"Validated analysis: {analysis_path}")
+    print(f"Validated enriched timeline: {analysis_path}")
     return 0
 
 

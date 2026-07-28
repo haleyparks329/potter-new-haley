@@ -2,7 +2,8 @@ import copy
 
 import pytest
 
-from src.models import PHASE_IDS, RELATIONSHIP_SCALE, validate_analysis
+from src.analysis import build_deterministic_timeline
+from src.models import Evidence, PHASE_IDS, RELATIONSHIP_SCALE, validate_analysis
 
 
 def valid_output():
@@ -37,3 +38,17 @@ def test_relationship_bounds_are_validated():
 def test_valid_contract_passes():
     assert validate_analysis(valid_output())
 
+
+def test_deterministic_timeline_uses_the_frontend_contract():
+    candidates = {phase_id: [] for phase_id in PHASE_IDS}
+    candidates["new_classmates"] = [
+        Evidence(6, ["Harry", "Ron"], "Harry and Ron spoke.", "pair interaction", 10)
+    ]
+
+    timeline = build_deterministic_timeline(candidates)
+
+    assert validate_analysis(timeline)
+    relationship = timeline["phases"][1]["relationships"]["harry_ron"]
+    assert relationship["level"] == 2
+    assert relationship["label"] == "Interacting"
+    assert timeline["phases"][1]["evidence"][0]["chapter"] == 6

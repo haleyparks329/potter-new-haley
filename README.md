@@ -11,8 +11,8 @@ service, database, or API.
 - Five explicitly curated story phases
 - Explainable paragraph and compact-window evidence retrieval
 - Conservative aliases for Harry, Ron, and Hermione
-- Optional, evidence-only interpretation with local Ollama
-- Atomic, validated JSON output for a later frontend
+- Schema-complete deterministic JSON output for a later frontend
+- Optional, evidence-only enrichment with local Ollama
 - Focused tests using entirely invented text
 
 ```mermaid
@@ -21,8 +21,8 @@ flowchart LR
     B --> C[Curated story phases]
     C --> D[Character interaction retrieval]
     D --> E[Evidence ranking]
-    E --> F[Grounded structured interpretation]
-    F --> G[Validated analysis JSON]
+    E --> F[Deterministic timeline JSON]
+    F -. Optional LLM enrichment .-> G[Validated friendship timeline JSON]
     G --> H[Future friendship timeline]
 ```
 
@@ -44,25 +44,41 @@ python -m scripts.analyze
 pytest
 ```
 
-Use `python -m scripts.analyze --no-llm` to run parsing and retrieval only.
-By default, interpretation calls local Ollama model `llama3.1:8b`; select
-another installed model with `--model`.
+Use `python -m scripts.analyze --no-llm` to run the complete deterministic
+pipeline without Ollama. It always writes a validated
+`friendship_timeline.json`. By default, the command also attempts optional
+enrichment with local Ollama model `llama3.1:8b`; select another installed
+model with `--model`.
 
 The command prints the selected filename, chapter count, total words, and first
 and last detected headings. Deterministic candidates are saved to
-`data/output/candidates.json`. A successful interpretation is validated and
-atomically written to `data/output/friendship_timeline.json`; failed
-regeneration never overwrites existing valid output. This file is the stable
-contract between the preprocessing pipeline and the future visualization.
+`data/output/candidates.json` as an intermediate debugging artifact. The final
+product output is atomically written to
+`data/output/friendship_timeline.json`, the stable contract between the
+preprocessing pipeline and future visualization. If optional enrichment fails,
+an existing timeline is preserved; on a first run, the deterministic timeline
+is written instead.
 
 ## How the analysis works
 
-Retrieval first finds explicit character aliases, adds a one-paragraph context
-window, identifies pair/trio candidates, scores dialogue and simple
-action/cooperation/conflict terms, and removes heavily overlapping passages.
-This stage is deterministic and inspectable. The optional LLM receives only
-these candidates and is instructed to return concise JSON, avoid invented
-scenes, and state uncertainty.
+Retrieval finds explicit conservative character aliases, adds a compact
+neighboring context window, identifies pair and trio candidates, and ranks them
+with explainable signals: number of characters, dialogue markers, simple
+action/cooperation/conflict terms, and manageable passage length. Heavily
+overlapping passages are removed and only a small ranked set is retained per
+phase.
+
+That deterministic evidence populates the complete frontend schema. Explicit
+pair co-mentions can establish the conservative `Interacting` level; fields
+that require interpretation remain empty and carry a limitation note. The
+optional LLM receives only the retained evidence and may enrich the same
+schema with summaries, actions, cooperation, conflict, and relationship
+reasoning. It cannot change the output contract.
+
+The optional LLM interpretation stage was intentionally not part of the
+completed path during the timed 90-minute assessment. The delivered pipeline
+therefore runs completely without an LLM via `--no-llm`; model enrichment can
+be performed later.
 
 Full pronoun and coreference resolution is outside this phase, so interactions
 without an explicit nearby name can be missed. The ranking vocabulary is
