@@ -41,7 +41,7 @@ PHASES = (
 
 PROJECT = {
     "title": "The Making of a Trio",
-    "book": "Harry Potter and the Sorcerer's Stone (book one)",
+    "book": "Harry Potter, book one",
     "analysis_scope": "Harry, Ron, and Hermione friendship development",
     "relationship_scale": {str(k): v for k, v in RELATIONSHIP_SCALE.items()},
     "measurement_note": (
