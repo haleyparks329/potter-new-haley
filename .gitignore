@@ -4,6 +4,7 @@ __pycache__/
 .venv/
 venv/
 .DS_Store
+artifacts/
 
 # The source text must remain local and uncommitted.
 data/input/*
@@ -12,4 +13,3 @@ data/input/*
 # Generated artifacts may contain derived excerpts.
 data/output/*
 !data/output/.gitkeep
-
