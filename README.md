@@ -11,6 +11,12 @@ The central tradeoff is deliberate: deterministic output is conservative and
 auditable, while richer interpretation is an optional offline step. The
 frontend always works from cached JSON and never calls an LLM at runtime.
 
+## Video demo
+
+[Watch the product demo](artifacts/demo.mov)
+
+The demo walks through the five story phases, relationship changes, and supporting evidence.
+
 ## Quick start
 
 Python 3.10 or newer is recommended.
