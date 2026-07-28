@@ -112,6 +112,14 @@ another, 2 Interacting, 3 Developing trust, 4 Established friendship, and 5
 Strong team. These are visual interpretations, not scientific scores. The UI
 communicates them with line weight, line style, and plain-language labels.
 
+In deterministic mode, stages are based only on explicit nearby character
+mentions in retained evidence. A pair interaction can establish `Interacting`,
+but higher stages—`Developing trust`, `Established friendship`, and `Strong
+team`—require contextual interpretation and are reserved for optional LLM
+enrichment. Later deterministic phases may therefore remain at `Interacting`.
+This conservative progression avoids overstating the evidence; it is an
+intentional accuracy tradeoff, not a visualization bug.
+
 ## Copyright handling
 
 The project does not search for or download book text. Local source files,
