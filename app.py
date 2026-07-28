@@ -163,10 +163,13 @@ if timeline.source == "demo":
 
 phases = timeline.data["phases"]
 phase_labels = [phase["label"] for phase in phases]
-selected_label = st.select_slider(
+selected_label = st.segmented_control(
     "Choose a story phase",
     options=phase_labels,
-    value=phase_labels[0],
+    default=phase_labels[0],
+    required=True,
+    format_func=lambda label: f"● {label}",
+    width="stretch",
 )
 phase = phases[phase_labels.index(selected_label)]
 
