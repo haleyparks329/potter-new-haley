@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
+import base64
 import html
 from pathlib import Path
 from typing import Any
 
 import streamlit as st
-import streamlit.components.v1 as components
 
 from src.timeline_data import TimelineDataError, chapter_range, load_timeline, phase_status
 
@@ -63,27 +63,28 @@ def relationship_diagram(relationships: dict[str, dict[str, Any]]) -> str:
             f'<text y="26" class="name">{name}</text></g>'
         )
     return f"""
-    <div class="diagram-shell">
-      <svg viewBox="0 0 600 405" role="img"
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 405" role="img"
            aria-label="Relationship diagram for Harry, Ron, and Hermione">
+        <defs>
+          <radialGradient id="paper" cx="50%" cy="0%" r="85%">
+            <stop offset="0%" stop-color="#fffdf6"/>
+            <stop offset="100%" stop-color="#f5ead6"/>
+          </radialGradient>
+          <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+            <feDropShadow dx="0" dy="7" stdDeviation="8"
+                          flood-color="#483120" flood-opacity=".10"/>
+          </filter>
+        </defs>
         <style>
           text {{ font-family: Georgia, serif; fill: #3c2d23; font-size: 14px; }}
           .symbol {{ text-anchor: middle; font-size: 27px; }}
           .name {{ text-anchor: middle; font-size: 16px; font-weight: 700; }}
         </style>
+        <rect x="7" y="7" width="586" height="385" rx="22"
+              fill="url(#paper)" stroke="#dfceb3" filter="url(#shadow)"/>
         {''.join(edges)}
         {''.join(nodes)}
       </svg>
-    </div>
-    <style>
-      body {{ margin: 0; background: transparent; }}
-      .diagram-shell {{
-        border: 1px solid #dfceb3; border-radius: 22px;
-        background: radial-gradient(circle at top, #fffdf6, #f5ead6);
-        padding: 4px 16px 0; box-shadow: 0 10px 30px rgba(72, 49, 32, .08);
-      }}
-      svg {{ display: block; width: 100%; max-height: 405px; }}
-    </style>
     """
 
 
@@ -182,7 +183,11 @@ with status_col:
         unsafe_allow_html=True,
     )
 
-components.html(relationship_diagram(phase["relationships"]), height=445)
+diagram_svg = relationship_diagram(phase["relationships"])
+diagram_url = "data:image/svg+xml;base64," + base64.b64encode(
+    diagram_svg.encode("utf-8")
+).decode("ascii")
+st.image(diagram_url, width="stretch")
 st.markdown(
     '<div class="relationship-key">Line weight and style show broad relationship '
     "stages—not scientific scores.</div>",
