@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.DS_Store
+
+# The source text must remain local and uncommitted.
+data/input/*
+!data/input/.gitkeep
+
+# Generated artifacts may contain derived excerpts.
+data/output/*
+!data/output/.gitkeep
+
