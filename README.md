@@ -1,9 +1,9 @@
 # The Making of a Trio
 
-Phase 1 of a friendship timeline exploring how Harry, Ron, and Hermione's
-relationships develop through the first book. This repository implements the
-offline analysis pipeline only; it deliberately contains no visualization,
-service, database, or API.
+A friendship timeline exploring how Harry, Ron, and Hermione's relationships
+develop through the first book. Phase 1 implements the offline analysis
+pipeline; Phase 2 adds a lightweight cached-data visualization. The project
+deliberately contains no service, database, or API.
 
 ## What is implemented
 
@@ -13,6 +13,8 @@ service, database, or API.
 - Conservative aliases for Harry, Ron, and Hermione
 - Schema-complete deterministic JSON output for a later frontend
 - Optional, evidence-only enrichment with local Ollama
+- Interactive Streamlit timeline with a fixed three-character diagram
+- Copyright-safe demo fallback when local generated output is unavailable
 - Focused tests using entirely invented text
 
 ```mermaid
@@ -23,7 +25,7 @@ flowchart LR
     D --> E[Evidence ranking]
     E --> F[Deterministic timeline JSON]
     F -. Optional LLM enrichment .-> G[Validated friendship timeline JSON]
-    G --> H[Future friendship timeline]
+    G --> H[Streamlit friendship timeline]
 ```
 
 ## Setup and commands
@@ -80,6 +82,28 @@ completed path during the timed 90-minute assessment. The delivered pipeline
 therefore runs completely without an LLM via `--no-llm`; model enrichment can
 be performed later.
 
+## Launch the visualization
+
+```bash
+streamlit run app.py
+```
+
+The UI reads cached JSON only and never calls Ollama or reruns preprocessing.
+It prefers `data/output/friendship_timeline.json`. Because that generated file
+can contain source-derived excerpts and remains Git-ignored, the app falls back
+to the committed, copyright-safe
+`data/demo/friendship_timeline.demo.json` fixture and displays a **Demo data**
+notice. Generate real local data at any time with:
+
+```bash
+python -m scripts.analyze --no-llm
+```
+
+The visualization presents relationship levels through line weight, line
+style, and plain-language labels: 0 No relationship, 1 Aware of one another, 2
+Interacting, 3 Developing trust, 4 Established friendship, and 5 Strong team.
+These are broad interpreted stages, not scientific scores.
+
 Full pronoun and coreference resolution is outside this phase, so interactions
 without an explicit nearby name can be missed. The ranking vocabulary is
 intentionally small, and local-model output quality may vary.
@@ -109,5 +133,5 @@ Do not search for or download unauthorized source text. The local source and
 generated outputs are Git-ignored, and evidence excerpts are capped at 70
 words. No book text is included in tests or source control.
 
-The next phase is an interactive friendship timeline that reads the cached
-`friendship_timeline.json` without invoking an LLM.
+The current visualization reads the cached `friendship_timeline.json` without
+invoking an LLM.

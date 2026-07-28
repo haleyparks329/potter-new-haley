@@ -1,0 +1,162 @@
+{
+  "project": {
+    "title": "The Making of a Trio",
+    "book": "First novel (demo data)",
+    "analysis_scope": "Harry, Ron, and Hermione friendship development",
+    "relationship_scale": {
+      "0": "No relationship",
+      "1": "Aware of one another",
+      "2": "Interacting",
+      "3": "Developing trust",
+      "4": "Established friendship",
+      "5": "Strong team"
+    },
+    "measurement_note": "Relationship values are interpreted visual stages, not scientific measurements."
+  },
+  "phases": [
+    {
+      "id": "before_hogwarts",
+      "label": "Before Hogwarts",
+      "symbol": "🏠",
+      "chapter_numbers": [1, 2, 3, 4, 5],
+      "friendship_stage": "Separate lives",
+      "summary": "The three future friends have not formed relationships with one another.",
+      "change_from_previous_phase": "",
+      "character_actions": [],
+      "cooperation": [],
+      "conflict": [],
+      "relationships": {
+        "harry_ron": {"level": 0, "label": "No relationship", "reason": "They have not met."},
+        "harry_hermione": {"level": 0, "label": "No relationship", "reason": "They have not met."},
+        "ron_hermione": {"level": 0, "label": "No relationship", "reason": "They have not met."}
+      },
+      "evidence": [
+        {
+          "chapter": 4,
+          "characters": ["Harry"],
+          "excerpt": "Invented demo evidence: Harry learns that a very different life and a new school await him.",
+          "relevance": "Establishes the period before the trio meets."
+        }
+      ],
+      "limitations": ["Demo fixture uses invented placeholder evidence, not text from the novel."]
+    },
+    {
+      "id": "new_classmates",
+      "label": "New Classmates",
+      "symbol": "🚂",
+      "chapter_numbers": [6, 7, 8],
+      "friendship_stage": "First connections",
+      "summary": "Harry and Ron begin to connect, while Hermione remains at the edge of their new friendship.",
+      "change_from_previous_phase": "The characters meet and begin forming first impressions.",
+      "character_actions": [
+        {"character": "Harry", "action": "Shares the uncertainty of starting school.", "relationship_effect": "Creates common ground with Ron."},
+        {"character": "Hermione", "action": "Approaches the boys with confidence.", "relationship_effect": "Makes herself known, though not yet close."}
+      ],
+      "cooperation": ["Harry and Ron navigate their first school experiences together."],
+      "conflict": ["Ron and Hermione form impatient first impressions of one another."],
+      "relationships": {
+        "harry_ron": {"level": 3, "label": "Developing trust", "reason": "Shared experiences quickly create trust."},
+        "harry_hermione": {"level": 1, "label": "Aware of one another", "reason": "They know one another but are not close."},
+        "ron_hermione": {"level": 1, "label": "Aware of one another", "reason": "Their early awareness includes irritation."}
+      },
+      "evidence": [
+        {
+          "chapter": 6,
+          "characters": ["Harry", "Ron"],
+          "excerpt": "Invented demo evidence: two nervous new students talk, share snacks, and find easy companionship.",
+          "relevance": "Shows the first strong pair connection."
+        }
+      ],
+      "limitations": ["Demo fixture uses invented placeholder evidence, not text from the novel."]
+    },
+    {
+      "id": "early_tension",
+      "label": "Early Tension",
+      "symbol": "📚",
+      "chapter_numbers": [9],
+      "friendship_stage": "Uneasy interaction",
+      "summary": "The three interact more often, but differences in temperament create friction.",
+      "change_from_previous_phase": "Awareness becomes direct interaction, without equal trust among all three.",
+      "character_actions": [
+        {"character": "Ron", "action": "Expresses frustration.", "relationship_effect": "Deepens tension with Hermione."},
+        {"character": "Hermione", "action": "Insists on rules and preparation.", "relationship_effect": "Keeps her socially separate from the boys."}
+      ],
+      "cooperation": [],
+      "conflict": ["Different attitudes toward school and rules lead to hurt feelings."],
+      "relationships": {
+        "harry_ron": {"level": 3, "label": "Developing trust", "reason": "Their friendship remains steady."},
+        "harry_hermione": {"level": 2, "label": "Interacting", "reason": "They interact without established trust."},
+        "ron_hermione": {"level": 2, "label": "Interacting", "reason": "Frequent interaction is marked by tension."}
+      },
+      "evidence": [
+        {
+          "chapter": 9,
+          "characters": ["Ron", "Hermione"],
+          "excerpt": "Invented demo evidence: a careless remark exposes the distance between two classmates.",
+          "relevance": "Represents the phase's central interpersonal tension."
+        }
+      ],
+      "limitations": ["Demo fixture uses invented placeholder evidence, not text from the novel."]
+    },
+    {
+      "id": "the_troll",
+      "label": "The Troll",
+      "symbol": "🧌🪄",
+      "chapter_numbers": [10],
+      "friendship_stage": "Turning point",
+      "summary": "Shared danger pushes the three classmates to act for one another and changes the shape of the group.",
+      "change_from_previous_phase": "Risk and mutual help replace distance with emerging trust.",
+      "character_actions": [
+        {"character": "Harry", "action": "Moves toward danger to help.", "relationship_effect": "Demonstrates loyalty."},
+        {"character": "Ron", "action": "Contributes under pressure.", "relationship_effect": "Builds trust across the trio."},
+        {"character": "Hermione", "action": "Protects the boys after the danger passes.", "relationship_effect": "Shows reciprocal loyalty."}
+      ],
+      "cooperation": ["The three respond to a dangerous situation with complementary actions."],
+      "conflict": [],
+      "relationships": {
+        "harry_ron": {"level": 4, "label": "Established friendship", "reason": "They act together without hesitation."},
+        "harry_hermione": {"level": 3, "label": "Developing trust", "reason": "Mutual help creates a new bond."},
+        "ron_hermione": {"level": 3, "label": "Developing trust", "reason": "Cooperation begins to replace irritation."}
+      },
+      "evidence": [
+        {
+          "chapter": 10,
+          "characters": ["Harry", "Ron", "Hermione"],
+          "excerpt": "Invented demo evidence: in a moment of danger, each student does something that helps the others.",
+          "relevance": "Supports the transition from classmates to friends."
+        }
+      ],
+      "limitations": ["Demo fixture uses invented placeholder evidence, not text from the novel."]
+    },
+    {
+      "id": "working_as_a_team",
+      "label": "Working as a Team",
+      "symbol": "♟️🗝️",
+      "chapter_numbers": [11, 12, 13, 14, 15, 16, 17],
+      "friendship_stage": "A functioning trio",
+      "summary": "The friends combine different strengths while investigating problems and confronting increasingly difficult challenges.",
+      "change_from_previous_phase": "A friendship born in one crisis becomes sustained teamwork.",
+      "character_actions": [
+        {"character": "Harry", "action": "Takes initiative when the stakes rise.", "relationship_effect": "Relies on his friends' support."},
+        {"character": "Ron", "action": "Uses strategic thinking.", "relationship_effect": "Makes a decisive contribution to the team."},
+        {"character": "Hermione", "action": "Applies knowledge and preparation.", "relationship_effect": "Helps the group move forward safely."}
+      ],
+      "cooperation": ["The trio shares information, plans together, and divides challenges according to individual strengths."],
+      "conflict": ["Concern and disagreement remain, but no longer define the relationships."],
+      "relationships": {
+        "harry_ron": {"level": 5, "label": "Strong team", "reason": "Friendship and teamwork reinforce one another."},
+        "harry_hermione": {"level": 4, "label": "Established friendship", "reason": "They trust each other's judgment and loyalty."},
+        "ron_hermione": {"level": 4, "label": "Established friendship", "reason": "Their contrasting strengths now support the group."}
+      },
+      "evidence": [
+        {
+          "chapter": 16,
+          "characters": ["Harry", "Ron", "Hermione"],
+          "excerpt": "Invented demo evidence: the trio faces a sequence of obstacles by relying on a different person's strength each time.",
+          "relevance": "Demonstrates mature teamwork across the trio."
+        }
+      ],
+      "limitations": ["Demo fixture uses invented placeholder evidence, not text from the novel."]
+    }
+  ]
+}
