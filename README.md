@@ -1,10 +1,11 @@
 # The Making of a Trio
 
 An interactive timeline showing how Harry, Ron, and Hermione become friends
-during the first novel. The 90-minute assessment produced a complete local
+during the first novel. The timed assessment produced the core local analysis
 pipeline: chapter parsing, explainable interaction retrieval, a stable JSON
 contract, and focused tests. A lightweight Streamlit visualization and
-copyright-safe demo fixture complete the product experience.
+copyright-safe demo fixture were added afterward to complete the product
+experience.
 
 The central tradeoff is deliberate: deterministic output is conservative and
 auditable, while richer interpretation is an optional offline step. The
